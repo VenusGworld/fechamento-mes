@@ -1,11 +1,10 @@
 from utils import converter_valor
-from arquivo import inicializar_arquivo, gravar_linha, gravar_registro
-from debito.funcoes import interpretar_planilha_debito
+from arquivo import inicializar_arquivo, interpretar_planilha, gravar_registros, gravar_linha
 
 
 def gerar_debito():
     inicializar_arquivo('debito', 'Extrato')
-    registros = interpretar_planilha_debito()
+    registros = interpretar_planilha('debito')
 
     recargas = []
     saidas = []
@@ -43,22 +42,22 @@ def gerar_debito():
             compras.append(registro)
 
     gravar_linha('debito', 'Movimentações')
-    gravar_registro('credito', movimentacoes)
+    gravar_registros('debito', movimentacoes)
 
     gravar_linha('debito', 'Entradas')
-    gravar_registro('credito', entradas)
+    gravar_registros('debito', entradas)
 
     gravar_linha('debito', 'Saidas')
-    gravar_registro('credito', saidas)
+    gravar_registros('debito', saidas)
 
     gravar_linha('debito', 'Recargas')
-    gravar_registro('credito', recargas)
+    gravar_registros('debito', recargas)
 
     gravar_linha('debito', 'Faturas')
-    gravar_registro('credito', faturas)
+    gravar_registros('debito', faturas)
 
     gravar_linha('debito', 'Compras')
-    gravar_registro('credito', compras)
+    gravar_registros('debito', compras)
 
     gravar_linha('debito', 'Totais')
     gravar_linha('debito', 'Entradas:', '', '', converter_valor(total_entradas))

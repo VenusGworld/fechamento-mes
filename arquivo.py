@@ -1,6 +1,24 @@
 import csv
 from utils import converter_valor
-from config import caminho_saida_credito, caminho_saida_debito
+from config import caminho_entrada_credito, caminho_entrada_debito, caminho_saida_credito, caminho_saida_debito
+from registro import Credito, Debito
+
+
+def interpretar_planilha(tipo):
+    if tipo == 'credito':
+        caminho = caminho_entrada_credito
+        classe = Credito
+
+    if tipo == 'debito':
+        caminho = caminho_entrada_debito
+        classe = Debito
+
+    with open(caminho, 'r', encoding='UTF8') as arquivo:
+        leitor_csv = csv.reader(arquivo)
+        next(leitor_csv)
+        registros = [classe(linha) for linha in leitor_csv]
+
+    return registros
 
 
 def inicializar_arquivo(tipo, titulo):
@@ -27,7 +45,7 @@ def gravar_linha(tipo, *args):
         escritor.writerow(args)
 
 
-def gravar_registro(tipo, registros):
+def gravar_registros(tipo, registros):
     if tipo == 'credito':
         caminho = caminho_saida_credito
 
