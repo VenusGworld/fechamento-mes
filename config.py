@@ -1,3 +1,5 @@
+import registro
+
 esperados_fixos = {
     'Pier',
     'Academia',
@@ -12,8 +14,17 @@ esperados_variaveis = {
     'Gasolina',
     'Santelmo'
 }
+caminhos_entrada = {
+    'credito': 'src/credito.csv',
+    'debito': 'src/debito.csv'
+}
 
-caminho_entrada_credito = 'src/credito.csv'
-caminho_entrada_debito = 'src/debito.csv'
-caminho_saida_credito = 'output/credito.csv'
-caminho_saida_debito = 'output/debito.csv'
+caminhos_saida = {
+    'credito': 'output/credito.xlsx',
+    'debito': 'output/debito.xlsx'
+}
+
+classes = {
+    'credito': registro.Credito,
+    'debito': registro.Debito
+}

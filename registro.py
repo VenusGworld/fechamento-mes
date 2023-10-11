@@ -1,5 +1,5 @@
-from utils import converter_valor, escolher_campo_extra
-from config import esperados_fixos, esperados_variaveis
+import config
+from utils import escolher_campo_extra
 
 
 class Credito:
@@ -13,20 +13,20 @@ class Credito:
         if self.categoria in 'payment':
             self.tipo = 'pagamento antecipado'
 
-        elif self.descricao in esperados_fixos:
+        elif self.descricao in config.esperados_fixos:
             self.tipo = 'fixo'
 
-        elif self.descricao in esperados_variaveis:
+        elif self.descricao in config.esperados_variaveis:
             self.tipo = 'variavel'
 
         else:
             self.tipo = 'geral'
 
     def montar_estrutura_csv(self):
-        return [self.data, self.tipo, self.descricao, converter_valor(self.valor)]
+        return [self.data, self.tipo, self.descricao, self.valor]
 
     def __str__(self):
-        return f"{self.data} | {self.tipo} | {self.categoria} | {self.descricao} | {converter_valor(self.valor)}"
+        return f"{self.data} | {self.tipo} | {self.categoria} | {self.descricao} | {self.valor}"
 
 
 class Debito:
@@ -70,9 +70,9 @@ class Debito:
                 self.banco = 'rico'
 
     def montar_estrutura_csv(self):
-        campo_extra = escolher_campo_extra(self.envolvido, self.banco, self.identificador)
-        return [self.data, self.tipo, campo_extra, converter_valor(self.valor)]
+        campo_extra = escolher_campo_extra(self.envolvido, self.banco, self.tipo)
+        return [self.data, self.tipo, campo_extra, self.valor]
 
     def __str__(self):
-        campo_extra = escolher_campo_extra(self.envolvido, self.banco, self.identificador)
-        return f"{self.data} | {self.tipo} | {campo_extra} | {converter_valor(self.valor)}"
+        campo_extra = escolher_campo_extra(self.envolvido, self.banco, self.tipo)
+        return f"{self.data} | {self.tipo} | {campo_extra} | {self.valor}"

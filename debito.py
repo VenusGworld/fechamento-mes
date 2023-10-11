@@ -1,5 +1,4 @@
-from utils import converter_valor
-from arquivo import inicializar_arquivo, interpretar_planilha, gravar_registros, gravar_linha
+from planilha import inicializar_arquivo, interpretar_planilha, gravar_registros, gravar_linha, formatar_planilha
 
 
 def gerar_debito():
@@ -60,6 +59,7 @@ def gerar_debito():
     gravar_registros('debito', compras)
 
     gravar_linha('debito', 'Totais')
-    gravar_linha('debito', 'Entradas:', '', '', converter_valor(total_entradas))
-    gravar_linha('debito', 'Saídas:', '', '', converter_valor(total_saidas))
-    gravar_linha('debito', 'Saldo:', '', '', converter_valor(total_saidas + total_entradas))
+    gravar_linha('debito', 'Entradas', total_entradas)
+    gravar_linha('debito', 'Saídas', total_saidas)
+    gravar_linha('debito', 'Saldo', total_saidas + total_entradas)
+    formatar_planilha('debito')

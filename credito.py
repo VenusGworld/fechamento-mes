@@ -1,5 +1,5 @@
-from utils import converter_valor, somar_registros, solicitar_valor_input
-from arquivo import inicializar_arquivo, interpretar_planilha, gravar_registros, gravar_linha
+from utils import somar_registros, solicitar_valor_input
+from planilha import inicializar_arquivo, interpretar_planilha, gravar_registros, gravar_linha, formatar_planilha
 
 
 def gravar_fixos(registros):
@@ -38,11 +38,11 @@ def gravar_calculo(fixos, variaveis, gerais):
     outros_gastos = total_fatura - gastos_previstos
     valor_aberto = total_fatura - pagamento_antecipado
 
-    gravar_linha('credito', "Gastos Previstos:", '', '', converter_valor(gastos_previstos))
-    gravar_linha('credito', "Outros Gastos:", '', '', converter_valor(outros_gastos))
-    gravar_linha('credito', "Pagamento Antecipado:", '', '', converter_valor(pagamento_antecipado))
-    gravar_linha('credito', "Total Fatura:", '', '', converter_valor(total_fatura))
-    gravar_linha('credito', "Valor Aberto:", '', '', converter_valor(valor_aberto))
+    gravar_linha('credito', "Gastos Previstos", gastos_previstos)
+    gravar_linha('credito', "Outros Gastos", outros_gastos)
+    gravar_linha('credito', "Pagamento Antecipado", pagamento_antecipado)
+    gravar_linha('credito', "Total Fatura", total_fatura)
+    gravar_linha('credito', "Valor Aberto", valor_aberto)
 
 
 def gerar_credito():
@@ -67,3 +67,4 @@ def gerar_credito():
     gravar_variaveis(variaveis)
     gravar_gerais(gerais)
     gravar_calculo(fixos, variaveis, gerais)
+    formatar_planilha('credito')
