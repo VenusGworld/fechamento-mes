@@ -6,9 +6,7 @@ from credito.registro import RegistroCredito
 
 
 def interpretar_planilha_credito():
-    registros_fixos = []
-    registros_variaveis = []
-    registros_gerais = []
+    registros = []
 
     with open(caminho_entrada_credito, 'r', encoding='UTF8') as arquivo:
         leitor_csv = csv.reader(arquivo)
@@ -16,18 +14,9 @@ def interpretar_planilha_credito():
 
         for linha in leitor_csv:
             registro = RegistroCredito(linha)
+            registros.append(registro)
 
-            if registro.categoria != 'payment':
-                if registro.descricao in esperados_fixos:
-                    registros_fixos.append(registro)
-
-                elif registro.descricao in esperados_variaveis:
-                    registros_variaveis.append(registro)
-
-                else:
-                    registros_gerais.append(registro)
-
-    return registros_fixos, registros_variaveis, registros_gerais
+    return registros
 
 
 def calcular_soma(registros):
@@ -45,26 +34,18 @@ def gravar_registros_fixos(registros):
 def gravar_registros_variaveis(registros):
     gravar_linha_credito('Variáveis')
 
-    registro_unico_gasolina = RegistroCredito()
-    registro_unico_gasolina.valor = 0
+    gravar_linha_credito('Gasolina')
+    gasolinas = [registro for registro in registros if registro.descricao == 'Gasolina']
+    gravar_registros_credito(gasolinas)
 
-    registro_unico_santelmo = RegistroCredito()
-    registro_unico_santelmo.valor = 0
+    gravar_linha_credito('Santelmo')
+    santelmos = [registro for registro in registros if registro.descricao == 'Santelmo']
+    gravar_registros_credito(santelmos)
 
-    for registro in registros:
-        if registro.descricao == 'Gasolina':
-            registro_unico_gasolina.data = registro.data
-            registro_unico_gasolina.categoria = registro.categoria
-            registro_unico_gasolina.descricao = registro.descricao
-            registro_unico_gasolina.valor += registro.valor
 
-        if registro.descricao == 'Santelmo':
-            registro_unico_santelmo.data = registro.data
-            registro_unico_santelmo.categoria = registro.categoria
-            registro_unico_santelmo.descricao = registro.descricao
-            registro_unico_santelmo.valor += registro.valor
-
-    gravar_registros_credito([registro_unico_gasolina, registro_unico_santelmo])
+def gravar_registros_gerais(registros):
+    gravar_linha_credito('Gerais')
+    gravar_registros_credito(registros)
 
 
 def calcular_totais(registros_fixos, registros_variaveis, registros_gerais):
@@ -76,8 +57,8 @@ def calcular_totais(registros_fixos, registros_variaveis, registros_gerais):
     outros_gastos = total_fatura - gastos_previstos
     valor_aberto = total_fatura - pagamento_antecipado
 
-    gravar_linha_credito(f"Gastos Previstos: {converter_valor(gastos_previstos)}")
-    gravar_linha_credito(f"Outros Gastos: {converter_valor(outros_gastos)}")
-    gravar_linha_credito(f"Pagamento Antecipado: {converter_valor(pagamento_antecipado)}")
-    gravar_linha_credito(f"Total Fatura: {converter_valor(total_fatura)}")
-    gravar_linha_credito(f"Valor Aberto: {converter_valor(valor_aberto)}")
+    gravar_linha_credito("Gastos Previstos:", '', '', converter_valor(gastos_previstos))
+    gravar_linha_credito("Outros Gastos:", '', '', converter_valor(outros_gastos))
+    gravar_linha_credito("Pagamento Antecipado:", '', '', converter_valor(pagamento_antecipado))
+    gravar_linha_credito("Total Fatura:", '', '', converter_valor(total_fatura))
+    gravar_linha_credito("Valor Aberto:", '', '', converter_valor(valor_aberto))
