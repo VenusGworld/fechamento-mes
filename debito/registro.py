@@ -30,7 +30,11 @@ class RegistroDebito:
             self.tipo = 'movimentacao'
 
     def montar_estrutura_csv(self):
-        return [self.data, self.tipo, self.envolvido, self.valor]
+        valor = f"{self.valor:.2f}"
+        valor = valor.replace('.', ',')
+        return [self.data, self.tipo, self.envolvido, valor]
 
     def __str__(self):
-        return f"{self.data} | {self.tipo} | {self.valor}"
+        valor = f"{self.valor:.2f}"
+        valor = valor.replace('.', ',')
+        return f"{self.data} | {self.tipo} | {valor}"
