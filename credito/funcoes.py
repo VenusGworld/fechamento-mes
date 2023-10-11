@@ -1,4 +1,5 @@
 import csv
+from utils import converter_valor
 from config import esperados_fixos, esperados_variaveis, caminho_entrada_credito
 from credito.arquivo import gravar_registros_credito, gravar_linha_credito
 from credito.registro import RegistroCredito
@@ -75,8 +76,8 @@ def calcular_totais(registros_fixos, registros_variaveis, registros_gerais):
     outros_gastos = total_fatura - gastos_previstos
     valor_aberto = total_fatura - pagamento_antecipado
 
-    gravar_linha_credito(f"Gastos Previstos: {gastos_previstos:.2f}")
-    gravar_linha_credito(f"Outros Gastos: {outros_gastos:.2f}")
-    gravar_linha_credito(f"Pagamento Antecipado: {pagamento_antecipado:.2f}")
-    gravar_linha_credito(f"Total Fatura: {total_fatura:.2f}")
-    gravar_linha_credito(f"Valor Aberto: {valor_aberto:.2f}")
+    gravar_linha_credito(f"Gastos Previstos: {converter_valor(gastos_previstos)}")
+    gravar_linha_credito(f"Outros Gastos: {converter_valor(outros_gastos)}")
+    gravar_linha_credito(f"Pagamento Antecipado: {converter_valor(pagamento_antecipado)}")
+    gravar_linha_credito(f"Total Fatura: {converter_valor(total_fatura)}")
+    gravar_linha_credito(f"Valor Aberto: {converter_valor(valor_aberto)}")

@@ -1,3 +1,4 @@
+from utils import converter_valor
 from debito.arquivo import inicializar_arquivo, gravar_linha_debito, gravar_registros_debito
 from debito.funcoes import interpretar_planilha_debito
 
@@ -23,7 +24,7 @@ def gerar_debito():
         if registro.valor < 0:
             total_saidas += registro.valor
 
-        if 'anthony' in registro.envolvido.lower():
+        if registro.tipo == 'movimentacao':
             movimentacoes.append(registro)
 
         elif registro.tipo == 'transferencia recebida':
@@ -63,9 +64,6 @@ def gerar_debito():
     gravar_registros_debito(compras)
 
     gravar_linha_debito('Totais')
-    gravar_linha_debito('Total entradas')
-    gravar_linha_debito(total_entradas)
-    gravar_linha_debito('Total saidas')
-    gravar_linha_debito(total_saidas)
-    gravar_linha_debito('Saldo final')
-    gravar_linha_debito(total_saidas + total_entradas)
+    gravar_linha_debito('Entradas:', '', '', converter_valor(total_entradas))
+    gravar_linha_debito('Saídas:', '', '', converter_valor(total_saidas))
+    gravar_linha_debito('Saldo:', '', '', converter_valor(total_saidas + total_entradas))
