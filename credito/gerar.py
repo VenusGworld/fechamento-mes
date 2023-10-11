@@ -1,10 +1,11 @@
-from credito.arquivo import inicializar_arquivo
+from arquivo import inicializar_arquivo
+from config import caminho_entrada_credito
 from credito.funcoes import interpretar_planilha_credito
 from credito.funcoes import gravar_registros_fixos, gravar_registros_variaveis, gravar_registros_gerais, calcular_totais
 
 
 def gerar_credito():
-    inicializar_arquivo()
+    inicializar_arquivo('credito', 'Fatura')
     registros = interpretar_planilha_credito()
 
     fixos = []

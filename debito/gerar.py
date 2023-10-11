@@ -1,10 +1,10 @@
 from utils import converter_valor
-from debito.arquivo import inicializar_arquivo, gravar_linha_debito, gravar_registros_debito
+from arquivo import inicializar_arquivo, gravar_linha, gravar_registro
 from debito.funcoes import interpretar_planilha_debito
 
 
 def gerar_debito():
-    inicializar_arquivo()
+    inicializar_arquivo('debito', 'Extrato')
     registros = interpretar_planilha_debito()
 
     recargas = []
@@ -42,28 +42,25 @@ def gerar_debito():
         elif registro.tipo == 'compra':
             compras.append(registro)
 
-        else:
-            print(f"Erro no registro: {registro}")
+    gravar_linha('debito', 'Movimentações')
+    gravar_registro('credito', movimentacoes)
 
-    gravar_linha_debito('Movimentações')
-    gravar_registros_debito(movimentacoes)
+    gravar_linha('debito', 'Entradas')
+    gravar_registro('credito', entradas)
 
-    gravar_linha_debito('Entradas')
-    gravar_registros_debito(entradas)
+    gravar_linha('debito', 'Saidas')
+    gravar_registro('credito', saidas)
 
-    gravar_linha_debito('Saidas')
-    gravar_registros_debito(saidas)
+    gravar_linha('debito', 'Recargas')
+    gravar_registro('credito', recargas)
 
-    gravar_linha_debito('Recargas')
-    gravar_registros_debito(recargas)
+    gravar_linha('debito', 'Faturas')
+    gravar_registro('credito', faturas)
 
-    gravar_linha_debito('Faturas')
-    gravar_registros_debito(faturas)
+    gravar_linha('debito', 'Compras')
+    gravar_registro('credito', compras)
 
-    gravar_linha_debito('Compras')
-    gravar_registros_debito(compras)
-
-    gravar_linha_debito('Totais')
-    gravar_linha_debito('Entradas:', '', '', converter_valor(total_entradas))
-    gravar_linha_debito('Saídas:', '', '', converter_valor(total_saidas))
-    gravar_linha_debito('Saldo:', '', '', converter_valor(total_saidas + total_entradas))
+    gravar_linha('debito', 'Totais')
+    gravar_linha('debito', 'Entradas:', '', '', converter_valor(total_entradas))
+    gravar_linha('debito', 'Saídas:', '', '', converter_valor(total_saidas))
+    gravar_linha('debito', 'Saldo:', '', '', converter_valor(total_saidas + total_entradas))

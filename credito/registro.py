@@ -9,7 +9,6 @@ class RegistroCredito:
             self.categoria = linha[1]
             self.descricao = linha[2]
             self.valor = float(linha[3])
-            self.tipo = 'tipo generico'
 
         if self.categoria in 'payment':
             self.tipo = 'pagamento antecipado'
